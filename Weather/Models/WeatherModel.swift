@@ -22,7 +22,7 @@ struct Temperature: Decodable {
 
 struct WeatherValues: Decodable {
     let unitCode: String
-    let value: Double
+    let value: Double?
     let qualityControl: String?
 }
 
