@@ -7,23 +7,22 @@
 
 import Foundation
 import CoreLocation
-import Combine
 
+//@Observable
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+//    @ObservationIgnored
     private let locationManager = CLLocationManager()
+    
     @Published var locationStatus: CLAuthorizationStatus?
     @Published var lastLocation: CLLocation?
     
     override init() {
         super.init()
-//        self.lastLocation = self.locationManager.location
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
-    
-    
     
     var statusString: String {
         guard let status = locationStatus else {
@@ -47,15 +46,33 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         debugPrint("Retreiving location")
         guard let location = locations.last else { return }
-
+        
         lastLocation = location
-
+        
+        if let lastLocation {
+            lastLocation.placemark { placemark, error in
+                guard let placemark else {
+                    return
+                }
+                
+                AppState.shared.locationState.cityLocation = placemark.locality
+            }
+        }
+        
         Task {
-//            await Api.getHome()
             await Api.getPointData()
             await Api.getStationData()
-            await Api.getCurrentWeather()
+            let _ = await Api.getCurrentWeather()
+            let _ = await Api.getHourlyForecast()
+            let _ = await Api.getExtendedForecast()
         }
+        
         locationManager.stopUpdatingLocation()
+    }
+}
+
+extension CLLocation {
+    func placemark(completion: @escaping (_ placemark: CLPlacemark?, _ error: Error?) -> ()) {
+        CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first, $1) }
     }
 }
