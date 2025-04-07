@@ -11,14 +11,15 @@ import Foundation
 struct HourlyForecastView: View {
     @State var state = AppState.shared
     
+    @State var width: CGFloat = .zero
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            TitleView(text: "Hourly Forecast")
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 8) {
-                    if let hourlyForecasts = state.hourlyForecast?.properties.periods {
+        VStack(spacing: 0) {
+            if let hourlyForecasts {
+                TitleView(text: "Hourly Forecast")
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top, spacing: 8) {
                         ForEach(Array(hourlyForecasts.prefix(24).enumerated()), id: \.offset) { index, forecast in
-//                            if index != 0 {
                             HStack {
                                 VStack(spacing: 4) {
                                     timeView(forecast.startTime)
@@ -27,27 +28,24 @@ struct HourlyForecastView: View {
                                         .background(Color.gray.opacity(0.3))
                                     HStack {
                                         DisplayTemp(temp: String(forecast.temperature))
-//                                        Spacer()
                                         IconView(weather: forecast.shortForecast)
                                             .frame(width: 12, height: 12)
                                     }
                                     Text(forecast.shortForecast)
-                                        .font(.caption)
+                                        .font(.footnote)
                                     Spacer()
-                                    chanceOfPrecipView(forecast.probabilityOfPrecipitation.value)
-                                    
+                                    chanceOfPrecipView(
+                                        forecast.probabilityOfPrecipitation.value
+                                    )
                                 }
                                 .padding(2)
                                 .padding(.top, 4)
                                 .frame(
                                     maxHeight: .infinity
                                 )
-                                
-//                                Spacer()
                             }
-                            .frame(width: 80)
+                            .frame(width: width)
                             .padding(4)
-//                            .background(.white)
                             .background(
                                 LinearGradient(
                                     colors: [.white, .gray.opacity(0.4)],
@@ -57,6 +55,7 @@ struct HourlyForecastView: View {
                             .background(.white)
                             .cornerRadius(8)
                             .shadow(radius: 8)
+                        }
                             
 
                                 //                                Image(systemName: forecast.weatherKey)
@@ -73,22 +72,41 @@ struct HourlyForecastView: View {
                                 
 //                            }
                             
-                        }
                     }
+                    .background(
+                        GeometryReader { proxy in
+                            Color.clear
+                                .onAppear {
+                                    width = proxy.size.width / 5
+                                }
+                        }
+                    )
                 }
                 .padding()
             }
         }
+        .animation(.easeInOut, value: isLoading)
     }
 }
 
     
 extension HourlyForecastView {
+    var hourlyForecasts: [ForecastPeriodModel]? {
+        state.hourlyForecast?.properties.periods
+    }
+    
+    var isLoading: Bool {
+        guard let hourlyForecasts else {
+            return true
+        }
+        
+        return hourlyForecasts.isEmpty
+    }
+    
     @ViewBuilder func timeView(_ time: String) -> some View {
         if let hour = hour(time) {
             Text(String(hour))
                 .font(.caption)
-                .padding(.bottom, 1)
         }
     }
     
@@ -96,13 +114,10 @@ extension HourlyForecastView {
         if let chance, !chance.isZero {
             HStack(spacing: 0) {
                 Image(systemName: "drop.fill")
-//                    .resizable()
-//                    .scaledToFill()
                     .font(.footnote)
                     .foregroundStyle(Color.blue)
                 Text("\(String(format: "%.0f", chance))%")
                     .font(.footnote)
-                Spacer()
             }
         }
     }
@@ -111,9 +126,3 @@ extension HourlyForecastView {
 #Preview {
     HourlyForecastView()
 }
-
-//struct SwiftUIView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HourlyForecastView()
-//    }
-//}

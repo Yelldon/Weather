@@ -15,18 +15,16 @@ class Api {
     
     static func getStatus() async -> Void {
         do {
-            state.status = try await fetch(url: baseApiUrl, type: StatusModel.self)
+            state.status = try await fetch(from: baseApiUrl)
         } catch {
             print("Home error occured")
             debugPrint(error)
         }
     }
     
-    static func getPointData() async -> Void {
+    static func getPointData(for location: CLLocation) async -> Void {
         do {
-            if let location = state.location.lastLocation {
-                state.pointData = try await fetch(url: gridPointUrl(location: location), type: GridPointsModel.self)
-            }
+            state.pointData = try await fetch(from: gridPointUrl(location: location))
         } catch {
             debugPrint("Get point data error occured")
             debugPrint(error)
@@ -36,7 +34,7 @@ class Api {
     static func getStationData() async -> Void {
         do {
             if let stations = state.pointData?.properties.observationStations {
-                state.stationData = try await fetch(url: stations, type: StationModel.self)
+                state.stationData = try await fetch(from: stations)
             }
         } catch {
             debugPrint("Get stations data error occured")
@@ -48,7 +46,7 @@ class Api {
         do {
             debugPrint("Get current weather")
             debugPrint(observationUrl)
-            state.currentWeather = try await fetch(url: observationUrl, type: WeatherModel.self)
+            state.currentWeather = try await fetch(from: observationUrl)
         } catch {
             debugPrint("Get current weather error occured")
             debugPrint(error)
@@ -59,7 +57,7 @@ class Api {
         do {
             debugPrint("Get Hourly Forecast")
             if let forecastHourly = state.pointData?.properties.forecastHourly {
-                state.hourlyForecast = try await fetch(url: forecastHourly, type: ForecastModel.self)
+                state.hourlyForecast = try await fetch(from: forecastHourly)
             }
         } catch {
             debugPrint("Get current weather error occured")
@@ -70,7 +68,7 @@ class Api {
     static func getExtendedForecast() async -> Void {
         do {
             if let forecast = state.pointData?.properties.forecast {
-                state.extendedForecast = try await fetch(url: forecast, type: ForecastModel.self)
+                state.extendedForecast = try await fetch(from: forecast)
             }
         } catch {
             debugPrint("Get current weather error occured")
@@ -95,15 +93,40 @@ class Api {
 }
 
 private extension Api {
-    static func fetch<T: Decodable>(url: String, type: T.Type) async throws -> T {
-//        if let url = URL(string: url) {
-            let url = URL(string: url)!
-            let (data, _) = try await URLSession.shared.data(for: URLRequest(url: url))
-            let decoder = JSONDecoder()
+    static func fetch<T: Decodable>(from url: String) async throws -> T {
+        guard let url = URL(string: url) else {
+            throw NetworkError.invalidURL
+        }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
             
-            return try decoder.decode(type, from: data)
-//        } else {
-//            throw NSError(domain: "Invalid URL", code: 0, userInfo: nil)
-//        }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw NetworkError.invalidResponse
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                throw NetworkError.invalidResponse
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                return try decoder.decode(T.self, from: data)
+            } catch {
+                throw NetworkError.decodingFailed(error)
+            }
+        } catch let error as NetworkError {
+            throw error
+        } catch {
+            throw NetworkError.requestFailed(error)
+        }
+    }
+    
+    enum NetworkError: Error {
+        case invalidURL
+        case requestFailed(Error)
+        case invalidResponse
+        case invalidData
+        case decodingFailed(Error)
     }
 }

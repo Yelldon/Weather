@@ -31,6 +31,8 @@ private extension IconView {
             return "cloud.fill"
         } else if weather.contains("Rain") {
             return "cloud.drizzle"
+        } else if weather.contains("Frost") {
+            return "thermometer.and.liquid.waves.snowflake"
         } else {
             return "sun.max.fill"
         }

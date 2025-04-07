@@ -7,67 +7,73 @@
 
 import Foundation
 import CoreLocation
+import Observation
 
-//@Observable
-class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-//    @ObservationIgnored
+@Observable
+class LocationManager: NSObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
     
-    @Published var locationStatus: CLAuthorizationStatus?
-    @Published var lastLocation: CLLocation?
+    var location: CLLocation?
+    var authorizationStatus: CLAuthorizationStatus = .notDetermined
+    var errorMessage: String?
     
     override init() {
         super.init()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    func requestLocationPermission() {
+        debugPrint("** Getting Location Authorization **")
         locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func startLocationUpdates() {
+        debugPrint("** Getting Location **")
         locationManager.startUpdatingLocation()
     }
     
-    var statusString: String {
-        guard let status = locationStatus else {
-            return "unknown"
-        }
-        
-        switch status {
-        case .notDetermined: return "notDetermined"
-        case .authorizedWhenInUse: return "authorizedWhenInUse"
-        case .authorizedAlways: return "authorizedAlways"
-        case .restricted: return "restricted"
-        case .denied: return "denied"
-        default: return "unknown"
-        }
+    func stopLocationUpdates() {
+        debugPrint("** Stopped Getting Location **")
+        locationManager.stopUpdatingLocation()
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        locationStatus = status
-    }
-    
+    // Handle updated locations
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        debugPrint("Retreiving location")
-        guard let location = locations.last else { return }
+        guard let latestLocation = locations.last else { return }
+        location = latestLocation
         
-        lastLocation = location
-        
-        if let lastLocation {
-            lastLocation.placemark { placemark, error in
+        if let location {
+            location.placemark { placemark, error in
                 guard let placemark else {
                     return
                 }
-                
+
                 AppState.shared.locationState.cityLocation = placemark.locality
             }
         }
+    }
+    
+    // Handle location errors
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        errorMessage = error.localizedDescription
+        debugPrint("** Location error: \(error.localizedDescription) **")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        authorizationStatus = status
         
-        Task {
-            await Api.getPointData()
-            await Api.getStationData()
-            let _ = await Api.getCurrentWeather()
-            let _ = await Api.getHourlyForecast()
-            let _ = await Api.getExtendedForecast()
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
+            startLocationUpdates()
+        case .denied, .restricted:
+            errorMessage = "Location access denied or restricted"
+            stopLocationUpdates()
+        case .notDetermined:
+            break
+        @unknown default:
+            errorMessage = "Unknown authorization status"
         }
-        
-        locationManager.stopUpdatingLocation()
     }
 }
 
