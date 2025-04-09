@@ -13,13 +13,36 @@ import SwiftUI
 class AppState {
     static let shared = AppState()
     
-    var location = LocationManager()
+    var currentSavedSelection: SavedLocationModel?
     
+//    var location = LocationManager()
+//    
     var locationState = LocationState()
-    var status = StatusModel(status: "----")
+    
+//    var status = StatusModel(status: "----")
+    
     var pointData: GridPointsModel?
     var stationData: StationModel?
     var currentWeather: WeatherModel?
     var hourlyForecast: ForecastModel?
     var extendedForecast: ForecastModel?
+    
+    var menuIsOpen: Bool = false
+    var isWeatherViewLoading: Bool = false
+}
+
+extension AppState {
+    func resetCurrentSelection() {
+        isWeatherViewLoading = true
+        currentSavedSelection = nil
+    }
+    
+    func resetBaseState() {
+        isWeatherViewLoading = true
+        pointData = nil
+        stationData = nil
+        currentWeather = nil
+        hourlyForecast = nil
+        extendedForecast = nil
+    }
 }

@@ -22,7 +22,10 @@ private extension IconView {
         guard let weather, !weather.isEmpty else {
             return "sun.max.fill"
         }
-
+        
+        // There is quite a few more options!
+        // But seeing as that the the API doesn't document the possible
+        // options, just mostly finding them by trial and error.
         if weather.contains("Mostly Sunny") {
             return "cloud.sun"
         } else if weather.contains("Sunny") {

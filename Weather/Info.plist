@@ -5,8 +5,8 @@
 	<key>CFBundleIdentifier</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Needed to get location</string>
+	<string>Needed to get location for weather information</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Needed to get location</string>
+	<string>Needed to get location for weather information</string>
 </dict>
 </plist>

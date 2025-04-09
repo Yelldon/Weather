@@ -27,7 +27,7 @@ struct HourlyForecastView: View {
                                         .frame(height: 1)
                                         .background(Color.gray.opacity(0.3))
                                     HStack {
-                                        DisplayTemp(temp: String(forecast.temperature))
+                                        DisplayTempView(temp: String(forecast.temperature))
                                         IconView(weather: forecast.shortForecast)
                                             .frame(width: 12, height: 12)
                                     }
@@ -56,34 +56,13 @@ struct HourlyForecastView: View {
                             .cornerRadius(8)
                             .shadow(radius: 8)
                         }
-                            
-
-                                //                                Image(systemName: forecast.weatherKey)
-                                //                                    .resizable()
-                                //                                    .scaledToFill()
-                                //                                    .frame(width: 18, height: 18)
-                                //                                Text(forecast.shortForecast)
-                                //                                    .font(.system(size: 12.0))
-                                //                                    .padding(.bottom, 1)
-                                //                                DisplayTemp(temp: String(forecast.temperature), size: 14.0, isLoading: false)
-                                //                            }
-                                //                            .padding(8)
-                                //                            .shadow(radius: 5)
-                                
-//                            }
-                            
                     }
-                    .background(
-                        GeometryReader { proxy in
-                            Color.clear
-                                .onAppear {
-                                    width = proxy.size.width / 5
-                                }
-                        }
-                    )
+                    .padding()
                 }
-                .padding()
             }
+        }
+        .onAppear {
+            width = UIScreen.main.bounds.width / 6
         }
         .animation(.easeInOut, value: isLoading)
     }

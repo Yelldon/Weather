@@ -17,17 +17,10 @@ struct CurrentWeatherView: View {
                     tempView
                     heatIndexView
                     lastUpdatedView
-//                    Text(state.currentTemp?.properties.weatherKey ?? "")
-//                    Image(systemName: state.currentTemp?.properties.weatherKey ?? "questionmark.square.dashed")
-//                        .resizable()
-//                        .frame(width: 42.0, height: 42.0)
-                    
-                    
                 }
                 Spacer()
                 VStack(alignment: .trailing) {
-                    IconView(weather: state.currentWeather?.properties.textDescription)
-                        .frame(width: 24, height: 24)
+                    descriptionIconView
                     descriptionView
                 }
                 .frame(minWidth: 0, minHeight: 80.0)
@@ -47,30 +40,13 @@ struct CurrentWeatherView: View {
             .shadow(radius: 8)
         }
         .padding()
-//        VStack {
-////            Text(cityState)
-//            HStack {
-//                VStack(alignment: .leading) {
-//                    DisplayTemp(temp: temp)
-//                        .font(.system(size: 48))
-//                    if let heatIndex = heatIndex {
-//                        Text(heatIndex)
-//                    }
-//                    Spacer()
-//                }
-//                Spacer()
-//            }
-//            Spacer()
-//        }
-//        .padding()
-//        .frame(maxWidth: .infinity, minHeight: 120)
-//        .background(.white)
-//        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-//        .shadow(radius: 16, y: 8)
     }
 }
 
 private extension CurrentWeatherView {
+    var isLoading: Bool {
+        state.isWeatherViewLoading
+    }
     var temp: String {
         if let temp = state.currentWeather?.properties.temperature.value {
             return String(convertCToF(temp))
@@ -94,29 +70,35 @@ private extension CurrentWeatherView {
         return nil
     }
     
+    var descriptionIconView: some View {
+        IconView(weather: state.currentWeather?.properties.textDescription)
+            .frame(width: 24, height: 24)
+            .contentLoading(isLoading)
+    }
+    
     var descriptionView: some View {
-        Text(state.currentWeather?.properties.textDescription ?? "")
+        Text(state.currentWeather?.properties.textDescription ?? "-----")
+            .contentLoading(isLoading)
     }
     
     var tempView: some View {
-        DisplayTemp(temp: temp)
+        DisplayTempView(temp: temp)
             .font(.largeTitle)
             .bold()
+            .contentLoading(isLoading)
     }
     
     var lastUpdatedView: some View {
         Group {
-            if let time = lastUpdated {
-                Text("Last updated \(time)")
-                //                            .redacted(reason: isLoading ? .placeholder : [])
-                
+            if let lastUpdated {
+                Text("Last updated \(lastUpdated)")
             } else {
                 Text("Last updated")
-                //                            .redacted(reason: isLoading ? .placeholder : [])
             }
         }
         .font(.system(size: 10.0))
         .foregroundColor(.gray)
+        .contentLoading(isLoading)
     }
 }
 
