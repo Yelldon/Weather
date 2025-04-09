@@ -14,15 +14,16 @@ struct TitleView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(text)
-                .font(.body)
-                .foregroundStyle(color)
-                .bold()
-                .shadow(radius: 8)
-            Divider()
-                .frame(height: 1)
-                .background(color)
-                .shadow(radius: 8)
+            Group {
+                Text(text)
+                    .font(.body)
+                    .foregroundStyle(color)
+                    .bold()
+                Divider()
+                    .frame(height: 1)
+                    .background(color)
+            }
+            .baseShadow()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal)

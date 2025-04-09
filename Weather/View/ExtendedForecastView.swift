@@ -46,8 +46,7 @@ struct ExtendedForecastView: View {
                                 )
                                 .overlay(.ultraThinMaterial)
                             )
-                            .cornerRadius(15)
-                            .shadow(radius: 8)
+                            .roundedCorners(15)
                         }
                     }
                     .padding()

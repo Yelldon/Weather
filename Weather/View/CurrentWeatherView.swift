@@ -27,17 +27,8 @@ struct CurrentWeatherView: View {
             }
             .padding()
             .frame(maxWidth: .infinity)
-            .background(
-                LinearGradient(
-                    colors: [.white, .gray.opacity(0.3)],
-                    startPoint: .top, endPoint: .bottom
-                )
-            )
-            .background(.white)
-            .clipShape(
-                RoundedRectangle(cornerRadius: 15, style: .continuous)
-            )
-            .shadow(radius: 8)
+            .whiteBackground()
+            .roundedCorners(15)
         }
         .padding()
     }

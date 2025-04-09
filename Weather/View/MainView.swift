@@ -96,8 +96,7 @@ extension MainView {
                 )
             )
             .background(.white)
-            .cornerRadius(8)
-            .shadow(radius: 8)
+            .roundedCorners()
         }
     }
 }

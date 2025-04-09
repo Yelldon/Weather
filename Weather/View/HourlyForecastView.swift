@@ -46,15 +46,8 @@ struct HourlyForecastView: View {
                             }
                             .frame(width: width)
                             .padding(4)
-                            .background(
-                                LinearGradient(
-                                    colors: [.white, .gray.opacity(0.4)],
-                                    startPoint: .top, endPoint: .bottom
-                                )
-                            )
-                            .background(.white)
-                            .cornerRadius(8)
-                            .shadow(radius: 8)
+                            .whiteBackground()
+                            .roundedCorners()
                         }
                     }
                     .padding()

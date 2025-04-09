@@ -34,6 +34,7 @@
 		37CE39BA2DA4BE1F00B43909 /* SavedLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE39B92DA4BE1100B43909 /* SavedLocationModel.swift */; };
 		37CE39BC2DA4CEC500B43909 /* SearchCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE39BB2DA4CEC500B43909 /* SearchCityView.swift */; };
 		37CE39BF2DA5B92C00B43909 /* View+Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE39BE2DA5B92600B43909 /* View+Weather.swift */; };
+		37CE39C12DA6BF8600B43909 /* Style+Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE39C02DA6BF7F00B43909 /* Style+Weather.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		37CE39B92DA4BE1100B43909 /* SavedLocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedLocationModel.swift; sourceTree = "<group>"; };
 		37CE39BB2DA4CEC500B43909 /* SearchCityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCityView.swift; sourceTree = "<group>"; };
 		37CE39BE2DA5B92600B43909 /* View+Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Weather.swift"; sourceTree = "<group>"; };
+		37CE39C02DA6BF7F00B43909 /* Style+Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style+Weather.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -231,6 +233,7 @@
 		37CE39BD2DA5B80900B43909 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				37CE39C02DA6BF7F00B43909 /* Style+Weather.swift */,
 				37CE39BE2DA5B92600B43909 /* View+Weather.swift */,
 				3790D71E28738E0B00EE26E0 /* Helpers.swift */,
 			);
@@ -384,6 +387,7 @@
 				3790D71B287206DB00EE26E0 /* GridPointsModel.swift in Sources */,
 				37CE399A2DA0B71300B43909 /* ExtendedForecastView.swift in Sources */,
 				37CE39A02DA308DA00B43909 /* IconView.swift in Sources */,
+				37CE39C12DA6BF8600B43909 /* Style+Weather.swift in Sources */,
 				3790D7172871516D00EE26E0 /* DisplayTempView.swift in Sources */,
 				37CE39BC2DA4CEC500B43909 /* SearchCityView.swift in Sources */,
 				3790D708286D484D00EE26E0 /* LocationManager.swift in Sources */,

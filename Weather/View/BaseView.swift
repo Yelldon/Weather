@@ -18,45 +18,47 @@ struct BaseView: View {
     
     @State private var locationManager = LocationManager()
     @State private var preferredColumn = NavigationSplitViewColumn.detail
-    @State private var openSearchSheet: Bool = false
+    @State private var openSearch: Bool = false
     
     var body: some View {
         VStack {
             NavigationSplitView(
                 preferredCompactColumn: $preferredColumn
             ) {
-                ScrollView {
-                    VStack {
+                VStack {
+                    VStack(alignment: .leading) {
                         VStack {
-                            locationButton(location: nil)
-                            ForEach(savedLocations) { location in
-                                locationButton(location: location)
-                            }
+                            TextField(
+                                "",
+                                text: Binding.constant(""),
+                                prompt: Text("Search for city")
+                                    .foregroundStyle(Color.gray)
+                            )
+                            .textFieldStyle(BaseFieldStyle())
+                            .disabled(true)
+                            .accessibilityElement()
                         }
-                        .padding(.horizontal)
+                        .simultaneousGesture(TapGesture().onEnded {
+                            openSearch = true
+                        })
+                        
                     }
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            VStack {
-                                Button(action: {
-                                    openSearchSheet = true
-                                }) {
-                                    TextField("Search for city", text: Binding.constant(""))
-                                        .allowsHitTesting(false)
-                                }
-                                .simultaneousGesture(TapGesture().onEnded {
-                                    openSearchSheet = true
-                                })
-                            }
+                    .padding()
+                    
+                    ScrollView {
+                        locationButton(location: nil)
+                        ForEach(savedLocations) { location in
+                            locationButton(location: location)
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .background(.gray)
+                .background(.black)
             } detail: {
                 MainView(preferredColumn: $preferredColumn)
-                    .sheet(isPresented: $openSearchSheet) {
+                    .sheet(isPresented: $openSearch) {
                         SearchCityView(
-                            openSheet: $openSearchSheet,
+                            openSearch: $openSearch,
                             preferredColumn: $preferredColumn
                         )
                     }
@@ -158,11 +160,9 @@ private extension BaseView {
                 }
                 .padding()
             }
-            .background(.white)
-            .clipShape(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-            )
             .frame(maxWidth: .infinity)
+            .background(.white)
+            .roundedCorners()
         }
     }
     

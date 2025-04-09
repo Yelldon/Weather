@@ -17,51 +17,79 @@ struct SearchCityView: View {
     @State private var searchText: String = ""
     @State private var searchResults: [MKMapItem] = []
     
-    @Binding var openSheet: Bool
+    @Binding var openSearch: Bool
     @Binding var preferredColumn: NavigationSplitViewColumn
     
     @FocusState private var searchFieldFocused: Bool
     
     var body: some View {
         VStack {
-            TextField("Search for city", text: $searchText)
-                .focused($searchFieldFocused)
-                .onChange(of: searchText) {
-                    search()
-                }
-                .onAppear {
-                    searchFieldFocused = true
-                }
-            
-            List(searchResults, id: \.identifier) { item in
-                if let city = item.placemark.locality,
-                   let administrativeArea = item.placemark.administrativeArea {
-                    Button(action: {
-                        if let lat = item.placemark.location?.coordinate.latitude,
-                           let lon = item.placemark.location?.coordinate.longitude {
-                            let savedLocation = SavedLocationModel(
-                                city: city,
-                                state: administrativeArea,
-                                lat: lat,
-                                lon: lon
-                            )
-                            
-                            modelContext.insert(savedLocation)
-                            openSheet = false
-                            preferredColumn = .detail
-                            
-                            state.resetCurrentSelection()
-                        }
-                    }) {
-                        VStack(alignment: .leading) {
-                            Text("\(city), \(administrativeArea)")
-                        }
-                        .frame(maxWidth: .infinity)
+            VStack {
+                HStack {
+                    TextField(
+                        "",
+                        text: $searchText,
+                        prompt: Text("Search for city")
+                            .foregroundStyle(Color.gray)
+                    )
+                    .textFieldStyle(BaseFieldStyle())
+                    .focused($searchFieldFocused)
+                    .onAppear {
+                        searchFieldFocused = true
                     }
+                    .onChange(of: searchText) {
+                        search()
+                    }
+                    .onChange(of: searchFieldFocused) { _, focused in
+                        openSearch = focused
+                        if !openSearch {
+                            searchText = ""
+                            searchResults = []
+                        }
+                    }
+                    .animation(.easeInOut, value: searchFieldFocused)
+                    VStack {
+                        Button("Cancel") {
+                            searchFieldFocused = false
+                        }
+                    }
+                    .animation(.easeInOut, value: searchFieldFocused)
+                }
+                .padding()
+                VStack {
+                    List(searchResults, id: \.identifier) { item in
+                        if let city = item.placemark.locality,
+                           let administrativeArea = item.placemark.administrativeArea {
+                            Button(action: {
+                                if let lat = item.placemark.location?.coordinate.latitude,
+                                   let lon = item.placemark.location?.coordinate.longitude {
+                                    let savedLocation = SavedLocationModel(
+                                        city: city,
+                                        state: administrativeArea,
+                                        lat: lat,
+                                        lon: lon
+                                    )
+                                    
+                                    modelContext.insert(savedLocation)
+                                    openSearch = false
+                                    preferredColumn = .detail
+                                    
+                                    state.resetCurrentSelection()
+                                }
+                            }) {
+                                VStack(alignment: .leading) {
+                                    Text("\(city), \(administrativeArea)")
+                                        .foregroundStyle(Color.white)
+                                }
+                            }
+                            .listRowBackground(Color.clear)
+                        }
+                    }
+                    .listStyle(.plain)
                 }
             }
         }
-        .padding()
+        .background(.black)
     }
 }
 
@@ -70,14 +98,13 @@ extension SearchCityView {
         let request = MKLocalSearch.Request()
         
         request.naturalLanguageQuery = searchText
-        request.resultTypes = .address
+        request.resultTypes = .pointOfInterest
         request.region = MKCoordinateRegion(.world)
 
         Task {
             let search = MKLocalSearch(request: request)
             let response = try? await search.start()
             
-            debugPrint(response?.mapItems)
             searchResults = response?.mapItems ?? []
         }
     }
@@ -85,7 +112,7 @@ extension SearchCityView {
 
 #Preview {
     SearchCityView(
-        openSheet: .constant(true),
+        openSearch: .constant(true),
         preferredColumn: .constant(.detail)
     )
 }
