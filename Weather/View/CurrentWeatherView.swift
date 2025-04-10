@@ -93,14 +93,10 @@ private extension CurrentWeatherView {
     }
 }
 
-struct CurrentWeatherView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-//            Spacer()
-            CurrentWeatherView()
-            Spacer()
-        }
-//        .background(.blue)
-        .padding()
+#Preview {
+    VStack {
+        CurrentWeatherView()
+        Spacer()
     }
+    .padding()
 }

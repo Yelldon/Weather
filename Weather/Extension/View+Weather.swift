@@ -36,4 +36,14 @@ extension View {
             )
             .baseShadow()
     }
+    
+    func searchField() -> some View {
+        TextField(
+            "",
+            text: Binding.constant(""),
+            prompt: Text(LocalizedStringKey("SearchPlaceholder"))
+                .foregroundStyle(Color.gray)
+        )
+        .textFieldStyle(BaseFieldStyle())
+    }
 }

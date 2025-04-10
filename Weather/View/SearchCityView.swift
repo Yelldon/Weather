@@ -26,28 +26,22 @@ struct SearchCityView: View {
         VStack {
             VStack {
                 HStack {
-                    TextField(
-                        "",
-                        text: $searchText,
-                        prompt: Text("Search for city")
-                            .foregroundStyle(Color.gray)
-                    )
-                    .textFieldStyle(BaseFieldStyle())
-                    .focused($searchFieldFocused)
-                    .onAppear {
-                        searchFieldFocused = true
-                    }
-                    .onChange(of: searchText) {
-                        search()
-                    }
-                    .onChange(of: searchFieldFocused) { _, focused in
-                        openSearch = focused
-                        if !openSearch {
-                            searchText = ""
-                            searchResults = []
+                    SearchField(text: $searchText)
+                        .focused($searchFieldFocused)
+                        .onAppear {
+                            searchFieldFocused = true
                         }
-                    }
-                    .animation(.easeInOut, value: searchFieldFocused)
+                        .onChange(of: searchText) {
+                            search()
+                        }
+                        .onChange(of: searchFieldFocused) { _, focused in
+                            openSearch = focused
+                            if !openSearch {
+                                searchText = ""
+                                searchResults = []
+                            }
+                        }
+                    
                     VStack {
                         Button("Cancel") {
                             searchFieldFocused = false
@@ -56,6 +50,7 @@ struct SearchCityView: View {
                     .animation(.easeInOut, value: searchFieldFocused)
                 }
                 .padding()
+                
                 VStack {
                     List(searchResults, id: \.identifier) { item in
                         if let city = item.placemark.locality,
@@ -73,7 +68,6 @@ struct SearchCityView: View {
                                     modelContext.insert(savedLocation)
                                     openSearch = false
                                     preferredColumn = .detail
-                                    
                                     state.resetCurrentSelection()
                                 }
                             }) {
@@ -89,7 +83,7 @@ struct SearchCityView: View {
                 }
             }
         }
-        .background(.black)
+        .background(.dark)
     }
 }
 

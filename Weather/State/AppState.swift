@@ -14,12 +14,8 @@ class AppState {
     static let shared = AppState()
     
     var currentSavedSelection: SavedLocationModel?
-    
-//    var location = LocationManager()
-//    
+  
     var locationState = LocationState()
-    
-//    var status = StatusModel(status: "----")
     
     var pointData: GridPointsModel?
     var stationData: StationModel?

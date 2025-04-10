@@ -16,6 +16,7 @@ struct ExtendedForecastView: View {
         VStack(alignment: .leading, spacing: 0) {
             if let extendedForecast {
                 TitleView(text: "Exteneded Forecast")
+                
                 ScrollView (.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(extendedForecast, id: \.number) { forecast in
@@ -24,8 +25,10 @@ struct ExtendedForecastView: View {
                                     Text(forecast.name)
                                         .font(.callout)
                                         .bold()
+                                    
                                     Text(forecast.detailedForecast)
                                         .font(.caption)
+                                    
                                     Spacer()
                                 }
                                 .frame(maxWidth: .infinity)
@@ -48,12 +51,15 @@ struct ExtendedForecastView: View {
                             )
                             .roundedCorners(15)
                         }
+                        
+                        Spacer()
                     }
                     .padding()
                 }
             }
         }
         .onAppear {
+            // This works for iOS well, but will need to be fixed in iPadOS, Mac, etc...
             width = UIScreen.main.bounds.width / 2
             height = UIScreen.main.bounds.height / 4
         }

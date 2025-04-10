@@ -17,6 +17,7 @@ struct HourlyForecastView: View {
         VStack(spacing: 0) {
             if let hourlyForecasts {
                 TitleView(text: "Hourly Forecast")
+                
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top, spacing: 8) {
                         ForEach(Array(hourlyForecasts.prefix(24).enumerated()), id: \.offset) { index, forecast in
@@ -74,7 +75,9 @@ extension HourlyForecastView {
         
         return hourlyForecasts.isEmpty
     }
-    
+}
+
+extension HourlyForecastView {
     @ViewBuilder func timeView(_ time: String) -> some View {
         if let hour = hour(time) {
             Text(String(hour))

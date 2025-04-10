@@ -25,43 +25,9 @@ struct BaseView: View {
             NavigationSplitView(
                 preferredCompactColumn: $preferredColumn
             ) {
-                VStack {
-                    VStack(alignment: .leading) {
-                        VStack {
-                            TextField(
-                                "",
-                                text: Binding.constant(""),
-                                prompt: Text("Search for city")
-                                    .foregroundStyle(Color.gray)
-                            )
-                            .textFieldStyle(BaseFieldStyle())
-                            .disabled(true)
-                            .accessibilityElement()
-                        }
-                        .simultaneousGesture(TapGesture().onEnded {
-                            openSearch = true
-                        })
-                        
-                    }
-                    .padding()
-                    
-                    ScrollView {
-                        locationButton(location: nil)
-                        ForEach(savedLocations) { location in
-                            locationButton(location: location)
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-                .background(.black)
+                locationMenuView
             } detail: {
                 MainView(preferredColumn: $preferredColumn)
-                    .sheet(isPresented: $openSearch) {
-                        SearchCityView(
-                            openSearch: $openSearch,
-                            preferredColumn: $preferredColumn
-                        )
-                    }
             }
         }
         .onChange(of: scenePhase) { _, newPhase in
@@ -123,6 +89,44 @@ private extension BaseView {
         default:
             return false
         }
+    }
+    
+    var locationMenuView: some View {
+        VStack {
+            VStack {
+                VStack {
+                    SearchField(text: Binding.constant(""))
+                        .disabled(true)
+                        .accessibilityElement()
+                }
+                .simultaneousGesture(TapGesture().onEnded {
+                    openSearch = true
+                })
+                .sheet(isPresented: $openSearch) {
+                    SearchCityView(
+                        openSearch: $openSearch,
+                        preferredColumn: $preferredColumn
+                    )
+                }
+            }
+            .padding()
+            
+            ScrollView {
+                locationButton(location: nil)
+                
+                ForEach(savedLocations) { location in
+                    locationButton(location: location)
+                }
+            }
+            .padding(.horizontal)
+            .foregroundStyle(Color.black)
+        }
+        .background(
+            LinearGradient(
+                colors: [.baseDarkGradientStart, .baseDarkGradientEnd],
+                startPoint: .topLeading, endPoint: .bottomTrailing
+            )
+        )
     }
     
     func locationButton(location: SavedLocationModel?) -> some View {

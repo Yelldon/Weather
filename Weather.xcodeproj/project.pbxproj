@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		370D7FAE2DA76B580079505A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 370D7FAD2DA76B580079505A /* Localizable.strings */; };
+		370D7FB02DA76D8C0079505A /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370D7FAF2DA76D8C0079505A /* SearchField.swift */; };
 		3790D6F3286CDA1300EE26E0 /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D6F2286CDA1300EE26E0 /* WeatherApp.swift */; };
 		3790D6F5286CDA1300EE26E0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D6F4286CDA1300EE26E0 /* MainView.swift */; };
 		3790D6F7286CDA1500EE26E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3790D6F6286CDA1500EE26E0 /* Assets.xcassets */; };
@@ -55,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		370D7FAC2DA76B580079505A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		370D7FAF2DA76D8C0079505A /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		3790D6EF286CDA1300EE26E0 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3790D6F2286CDA1300EE26E0 /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		3790D6F4286CDA1300EE26E0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				3790D6F8286CDA1500EE26E0 /* Preview Content */,
 				37CE399B2DA0C07A00B43909 /* State */,
 				3790D70D2871351500EE26E0 /* View */,
+				370D7FAD2DA76B580079505A /* Localizable.strings */,
 				3790D709286D492600EE26E0 /* Info.plist */,
 				3790D6F6286CDA1500EE26E0 /* Assets.xcassets */,
 				3790D7182872041E00EE26E0 /* Config.swift */,
@@ -208,6 +213,7 @@
 				3790D7162871516D00EE26E0 /* DisplayTempView.swift */,
 				37CE399F2DA308DA00B43909 /* IconView.swift */,
 				37CE39A12DA3230B00B43909 /* TitleView.swift */,
+				370D7FAF2DA76D8C0079505A /* SearchField.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -314,7 +320,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1630;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					3790D6EE286CDA1300EE26E0 = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -354,6 +360,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				370D7FAE2DA76B580079505A /* Localizable.strings in Resources */,
 				3790D6FA286CDA1500EE26E0 /* Preview Assets.xcassets in Resources */,
 				3790D6F7286CDA1500EE26E0 /* Assets.xcassets in Resources */,
 			);
@@ -390,6 +397,7 @@
 				37CE39C12DA6BF8600B43909 /* Style+Weather.swift in Sources */,
 				3790D7172871516D00EE26E0 /* DisplayTempView.swift in Sources */,
 				37CE39BC2DA4CEC500B43909 /* SearchCityView.swift in Sources */,
+				370D7FB02DA76D8C0079505A /* SearchField.swift in Sources */,
 				3790D708286D484D00EE26E0 /* LocationManager.swift in Sources */,
 				3790D6F5286CDA1300EE26E0 /* MainView.swift in Sources */,
 				3790D71128713E3B00EE26E0 /* CurrentWeatherView.swift in Sources */,
@@ -437,11 +445,23 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		370D7FAD2DA76B580079505A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				370D7FAC2DA76B580079505A /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		3790D6FB286CDA1500EE26E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -494,6 +514,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -502,6 +523,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -547,6 +569,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};

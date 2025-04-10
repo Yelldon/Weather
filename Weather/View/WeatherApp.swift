@@ -30,3 +30,7 @@ struct WeatherApp: App {
         .modelContainer(sharedModelContainer)
     }
 }
+
+extension WeatherApp {
+    
+}
