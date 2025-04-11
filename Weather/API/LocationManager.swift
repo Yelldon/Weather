@@ -16,6 +16,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     var location: CLLocation?
     var authorizationStatus: CLAuthorizationStatus = .notDetermined
     var errorMessage: String?
+    var beginGettingLocation: Bool = false
     
     override init() {
         super.init()
@@ -41,6 +42,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     // Handle updated locations
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let latestLocation = locations.last else { return }
+
         location = latestLocation
         
         if let location {
@@ -49,17 +51,37 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                     return
                 }
 
-                AppState.shared.locationState.cityLocation = placemark.locality
+                AppState.shared.locationState.cityLocationCurrent = placemark.locality
             }
         }
+        
+        beginGettingLocation = true
+        
+        stopLocationUpdates()
     }
     
     // Handle location errors
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        let locationError = error as NSError
         errorMessage = error.localizedDescription
-        debugPrint("** Location error: \(error.localizedDescription) **")
+        debugPrint("** Location error: \(error) **")
+        
+        if locationError.code == CLError.denied.rawValue {
+            debugPrint("** User has denied location access **")
+            requestLocationPermission()
+            
+        } else if locationError.code == CLError.locationUnknown.rawValue {
+            debugPrint("** Location unknown error**")
+//            AppState.shared.errorState.setAppError(.locationFailed)
+            startLocationUpdates()
+        }
+            
+            // Stop the location service and inform the user
+    
+//        AppState.shared.errorState.setAppError(.locationFailed)
     }
     
+    // Handle authorization
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         authorizationStatus = status
         

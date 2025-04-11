@@ -13,15 +13,6 @@ class Api {
     static var state = AppState.shared
     static private let baseApiUrl = "https://api.weather.gov"
     
-//    static func getStatus() async -> Void {
-//        do {
-//            state.status = try await fetch(from: baseApiUrl)
-//        } catch {
-//            print("Home error occured")
-//            debugPrint(error)
-//        }
-//    }
-    
     static func getPointData(for location: CLLocation) async -> Void {
         do {
             debugPrint("Getting grid point data")
@@ -29,8 +20,9 @@ class Api {
             state.pointData = try await fetch(from: gridPointUrl(location: location))
             state.isWeatherViewLoading = true
         } catch {
-            debugPrint("Get point data error occured")
+            debugPrint("Getting grid point data error occured")
             debugPrint(error)
+            state.errorState.appError = .invalidURL
         }
     }
     
@@ -42,8 +34,9 @@ class Api {
                 state.stationData = try await fetch(from: stations)
             }
         } catch {
-            debugPrint("Get stations data error occured")
+            debugPrint("Getting weather station data error occured")
             debugPrint(error)
+            state.errorState.appError = .invalidURL
         }
     }
     
@@ -54,7 +47,7 @@ class Api {
             state.currentWeather = try await fetch(from: observationUrl)
             state.isWeatherViewLoading = false
         } catch {
-            debugPrint("Get current weather error occured")
+            debugPrint("Getting current weather error occured")
             debugPrint(error)
         }
     }
@@ -80,8 +73,48 @@ class Api {
                 state.extendedForecast = try await fetch(from: forecast)
             }
         } catch {
-            debugPrint("Get current weather error occured")
+            debugPrint("Getting Hourly Forecast error occured")
             debugPrint(error)
+        }
+    }
+}
+
+extension Api {
+    enum AppError: Error {
+        case decodingFailed
+        case invalidURL
+        case invalidResponse
+        case invalidData
+        case locationFailed
+        case requestFailed
+    }
+}
+
+private extension Api {
+    static func fetch<T: Decodable>(from url: String) async throws -> T {
+        guard let url = URL(string: url) else {
+            throw AppError.invalidURL
+        }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw AppError.invalidResponse
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                throw AppError.invalidResponse
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                return try decoder.decode(T.self, from: data)
+            } catch {
+                throw AppError.decodingFailed
+            }
+        } catch {
+            throw AppError.requestFailed
         }
     }
     
@@ -98,44 +131,5 @@ class Api {
         let lonString = String(format: "%.4f", location.coordinate.longitude)
         
         return "\(baseApiUrl)/points/\(latString),\(lonString)"
-    }
-}
-
-private extension Api {
-    static func fetch<T: Decodable>(from url: String) async throws -> T {
-        guard let url = URL(string: url) else {
-            throw NetworkError.invalidURL
-        }
-        
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw NetworkError.invalidResponse
-            }
-            
-            guard (200...299).contains(httpResponse.statusCode) else {
-                throw NetworkError.invalidResponse
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                return try decoder.decode(T.self, from: data)
-            } catch {
-                throw NetworkError.decodingFailed(error)
-            }
-        } catch let error as NetworkError {
-            throw error
-        } catch {
-            throw NetworkError.requestFailed(error)
-        }
-    }
-    
-    enum NetworkError: Error {
-        case invalidURL
-        case requestFailed(Error)
-        case invalidResponse
-        case invalidData
-        case decodingFailed(Error)
     }
 }

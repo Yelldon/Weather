@@ -37,7 +37,9 @@ struct BaseView: View {
                 if isLocationNotDetermined {
                     locationManager.requestLocationPermission()
                 } else if isLocationAuthorized {
-                    getLocationUpdate()
+                    locationManager.startLocationUpdates()
+//                    getLocationUpdate(location: CLLocation?)
+//                    getLocationUpdate()
                 }
             case .background:
                 debugPrint("** App became inactive **")
@@ -49,10 +51,17 @@ struct BaseView: View {
                 break
             }
         }
+        .onChange(of: locationManager.beginGettingLocation) { _, value in
+            if value {
+                getLocationUpdate(location: locationManager.location)
+                locationManager.beginGettingLocation = false
+            }
+        }
         .onChange(of: state.currentSavedSelection) { _, selection in
             if let location = selection {
                 state.locationState.cityLocation = location.city
                 state.resetBaseState()
+                state.errorState.resetAppErrors()
                 Task {
                     await Api.getPointData(for: CLLocation(latitude: location.lat, longitude: location.lon))
                     await Api.getStationData()
@@ -134,17 +143,20 @@ private extension BaseView {
             if let location {
                 state.currentSavedSelection = location
             } else {
-                getLocationUpdate()
+                getLocationUpdate(location: locationManager.location)
             }
+            
             preferredColumn = .detail
         }) {
             VStack(alignment: .leading) {
                 HStack {
                     if let location {
                         Image(systemName: "mappin.and.ellipse")
+                        
                         VStack(alignment: .leading) {
                             Text(location.city)
                                 .font(.body)
+                            
                             Text(location.state)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
@@ -154,7 +166,8 @@ private extension BaseView {
                         VStack(alignment: .leading) {
                             Text("Current Location")
                                 .font(.body)
-                            Text(state.locationState.cityLocation ?? "")
+                            
+                            Text(state.locationState.cityLocationCurrent ?? "")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -170,11 +183,12 @@ private extension BaseView {
         }
     }
     
-    func getLocationUpdate() {
+    func getLocationUpdate(location: CLLocation?) {
         state.resetBaseState()
         state.resetCurrentSelection()
-        locationManager.startLocationUpdates()
-        if let location = locationManager.location {
+        state.errorState.resetAppErrors()
+//        locationManager.startLocationUpdates()
+        if let location {
             Task {
                 await Api.getPointData(for: location)
                 await Api.getStationData()
@@ -185,6 +199,8 @@ private extension BaseView {
                 
                 locationManager.stopLocationUpdates()
             }
+        } else {
+//            state.errorState.setAppError(.locationFailed)
         }
     }
 }

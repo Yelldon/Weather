@@ -11,14 +11,16 @@ struct CurrentWeatherView: View {
     @State var state = AppState.shared
     
     var body: some View {
-        VStack {
+        ZStack {
             HStack {
                 VStack(alignment: .leading) {
                     tempView
                     heatIndexView
                     lastUpdatedView
                 }
+                
                 Spacer()
+                
                 VStack(alignment: .trailing) {
                     descriptionIconView
                     descriptionView
@@ -28,28 +30,26 @@ struct CurrentWeatherView: View {
             .padding()
             .frame(maxWidth: .infinity)
             .whiteBackground()
-            .roundedCorners(15)
+            .blur(radius: networkError ? 4 : 0)
+            
+            networkErrorView
         }
+        .roundedCorners(15)
         .padding()
     }
 }
 
+// MARK: Properties
 private extension CurrentWeatherView {
     var isLoading: Bool {
         state.isWeatherViewLoading
     }
+    
     var temp: String {
         if let temp = state.currentWeather?.properties.temperature.value {
             return String(convertCToF(temp))
         } else {
-            return "--"
-        }
-    }
-    
-    @ViewBuilder var heatIndexView: some View {
-        if let temp = state.currentWeather?.properties.heatIndex.value {
-            let index = convertCToF(temp)
-            Text("Feels like " + String(index))
+            return "---"
         }
     }
     
@@ -59,6 +59,20 @@ private extension CurrentWeatherView {
         }
         
         return nil
+    }
+    
+    var networkError: Bool {
+        state.errorState.appError == .invalidURL
+    }
+}
+
+// MARK: Views
+private extension CurrentWeatherView {
+    @ViewBuilder var heatIndexView: some View {
+        if let temp = state.currentWeather?.properties.heatIndex.value {
+            let index = convertCToF(temp)
+            Text("Feels like " + String(index))
+        }
     }
     
     var descriptionIconView: some View {
@@ -90,6 +104,27 @@ private extension CurrentWeatherView {
         .font(.system(size: 10.0))
         .foregroundColor(.gray)
         .contentLoading(isLoading)
+    }
+    
+    @ViewBuilder var networkErrorView: some View {
+        if networkError {
+            ZStack {
+                Color.white
+                    .opacity(0.2)
+                
+                VStack {
+                    Text("There was an error getting your location")
+                        .foregroundStyle(.red)
+                        .font(.body)
+                        .bold()
+                    
+                    Button("Retry") {
+                        
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
     }
 }
 

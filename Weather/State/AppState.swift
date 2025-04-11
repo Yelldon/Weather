@@ -6,8 +6,7 @@
 //
 
 import Foundation
-import Combine
-import SwiftUI
+import Observation
 
 @Observable
 class AppState {
@@ -16,6 +15,7 @@ class AppState {
     var currentSavedSelection: SavedLocationModel?
   
     var locationState = LocationState()
+    var errorState = ErrorState()
     
     var pointData: GridPointsModel?
     var stationData: StationModel?

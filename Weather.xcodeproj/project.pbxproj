@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		370D7FAE2DA76B580079505A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 370D7FAD2DA76B580079505A /* Localizable.strings */; };
 		370D7FB02DA76D8C0079505A /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370D7FAF2DA76D8C0079505A /* SearchField.swift */; };
+		370D7FB22DA871260079505A /* ErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370D7FB12DA8711F0079505A /* ErrorState.swift */; };
 		3790D6F3286CDA1300EE26E0 /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D6F2286CDA1300EE26E0 /* WeatherApp.swift */; };
 		3790D6F5286CDA1300EE26E0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D6F4286CDA1300EE26E0 /* MainView.swift */; };
 		3790D6F7286CDA1500EE26E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3790D6F6286CDA1500EE26E0 /* Assets.xcassets */; };
@@ -59,6 +60,7 @@
 /* Begin PBXFileReference section */
 		370D7FAC2DA76B580079505A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		370D7FAF2DA76D8C0079505A /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
+		370D7FB12DA8711F0079505A /* ErrorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorState.swift; sourceTree = "<group>"; };
 		3790D6EF286CDA1300EE26E0 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3790D6F2286CDA1300EE26E0 /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		3790D6F4286CDA1300EE26E0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		37CE399B2DA0C07A00B43909 /* State */ = {
 			isa = PBXGroup;
 			children = (
+				370D7FB12DA8711F0079505A /* ErrorState.swift */,
 				3790D705286CFCEA00EE26E0 /* AppState.swift */,
 				37CE399D2DA1EC4500B43909 /* LocationState.swift */,
 			);
@@ -408,6 +411,7 @@
 				37CE399E2DA1EC4500B43909 /* LocationState.swift in Sources */,
 				3790D71F28738E0B00EE26E0 /* Helpers.swift in Sources */,
 				3790D71D28738D4300EE26E0 /* WeatherModel.swift in Sources */,
+				370D7FB22DA871260079505A /* ErrorState.swift in Sources */,
 				37CE39BA2DA4BE1F00B43909 /* SavedLocationModel.swift in Sources */,
 				37CE39A22DA3230B00B43909 /* TitleView.swift in Sources */,
 				37CE39942DA0875000B43909 /* ForecastModel.swift in Sources */,

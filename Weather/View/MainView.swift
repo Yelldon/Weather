@@ -38,8 +38,18 @@ struct MainView: View {
 }
 
 extension MainView {
+    var isLoading: Bool {
+        state.isWeatherViewLoading
+    }
+    
     var cityName: String {
-        state.locationState.cityLocation ?? "---"
+        let defaultString = "---"
+        
+        if state.currentSavedSelection == nil {
+            return state.locationState.cityLocationCurrent ?? defaultString
+        }
+        
+        return state.locationState.cityLocation ?? defaultString
     }
     
     var headerView: some View {
@@ -62,6 +72,7 @@ extension MainView {
                     Text(cityName)
                         .font(.footnote)
                         .foregroundStyle(Color.black)
+                        .contentLoading(isLoading)
                 }
             }
             .padding(8)
