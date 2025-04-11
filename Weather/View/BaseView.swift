@@ -16,7 +16,6 @@ struct BaseView: View {
     
     @State var state = AppState.shared
     
-    @State private var locationManager = LocationManager()
     @State private var preferredColumn = NavigationSplitViewColumn.detail
     @State private var openSearch: Bool = false
     
@@ -35,26 +34,26 @@ struct BaseView: View {
             case .active:
                 debugPrint("** App became active **")
                 if isLocationNotDetermined {
-                    locationManager.requestLocationPermission()
+                    state.locationManager.requestLocationPermission()
                 } else if isLocationAuthorized {
-                    locationManager.startLocationUpdates()
-//                    getLocationUpdate(location: CLLocation?)
-//                    getLocationUpdate()
+                    state.locationManager.startLocationUpdates()
                 }
             case .background:
                 debugPrint("** App became inactive **")
-                locationManager.stopLocationUpdates()
+                state.locationManager.stopLocationUpdates()
             case .inactive:
                 debugPrint("** App entered background **")
-                locationManager.stopLocationUpdates()
+                state.locationManager.stopLocationUpdates()
             @unknown default:
                 break
             }
         }
-        .onChange(of: locationManager.beginGettingLocation) { _, value in
+        .onChange(of: state.locationManager.beginGettingLocation) { _, value in
             if value {
-                getLocationUpdate(location: locationManager.location)
-                locationManager.beginGettingLocation = false
+                Task {
+                    await Api.getLocationUpdate(location: state.locationManager.location)
+                }
+                state.locationManager.beginGettingLocation = false
             }
         }
         .onChange(of: state.currentSavedSelection) { _, selection in
@@ -84,7 +83,7 @@ struct BaseView: View {
 
 private extension BaseView {
     var isLocationNotDetermined: Bool {
-        switch locationManager.authorizationStatus {
+        switch state.locationManager.authorizationStatus {
         case .notDetermined:
             return true
         default:
@@ -92,7 +91,7 @@ private extension BaseView {
         }
     }
     var isLocationAuthorized: Bool {
-        switch locationManager.authorizationStatus {
+        switch state.locationManager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
             return true
         default:
@@ -143,7 +142,7 @@ private extension BaseView {
             if let location {
                 state.currentSavedSelection = location
             } else {
-                getLocationUpdate(location: locationManager.location)
+                getLocationUpdate(location: state.locationManager.location)
             }
             
             preferredColumn = .detail
@@ -187,20 +186,8 @@ private extension BaseView {
         state.resetBaseState()
         state.resetCurrentSelection()
         state.errorState.resetAppErrors()
-//        locationManager.startLocationUpdates()
-        if let location {
-            Task {
-                await Api.getPointData(for: location)
-                await Api.getStationData()
-                
-                let _ = await Api.getCurrentWeather()
-                let _ = await Api.getHourlyForecast()
-                let _ = await Api.getExtendedForecast()
-                
-                locationManager.stopLocationUpdates()
-            }
-        } else {
-//            state.errorState.setAppError(.locationFailed)
+        Task {
+            await Api.getLocationUpdate(location: location)
         }
     }
 }

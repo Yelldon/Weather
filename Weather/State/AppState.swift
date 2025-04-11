@@ -13,7 +13,8 @@ class AppState {
     static let shared = AppState()
     
     var currentSavedSelection: SavedLocationModel?
-  
+    
+    var locationManager = LocationManager()
     var locationState = LocationState()
     var errorState = ErrorState()
     

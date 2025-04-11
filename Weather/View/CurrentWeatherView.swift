@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct CurrentWeatherView: View {
     @State var state = AppState.shared
@@ -112,14 +113,24 @@ private extension CurrentWeatherView {
                 Color.white
                     .opacity(0.2)
                 
-                VStack {
+                VStack(spacing: 8) {
                     Text("There was an error getting your location")
                         .foregroundStyle(.red)
                         .font(.body)
                         .bold()
                     
                     Button("Retry") {
-                        
+                        state.errorState.resetAppErrors()
+                        if let currentSavedSelection = state.currentSavedSelection {
+                            let location = CLLocation(
+                                latitude: currentSavedSelection.lat,
+                                longitude: currentSavedSelection.lon
+                            )
+                            
+                            Task {
+                                await Api.getLocationUpdate(location: location)
+                            }
+                        }
                     }
                 }
             }

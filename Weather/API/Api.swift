@@ -77,6 +77,23 @@ class Api {
             debugPrint(error)
         }
     }
+    
+    static func getLocationUpdate(location: CLLocation?) async -> Void {
+        if let location {
+            Task {
+                await Api.getPointData(for: location)
+                await Api.getStationData()
+                
+                let _ = await Api.getCurrentWeather()
+                let _ = await Api.getHourlyForecast()
+                let _ = await Api.getExtendedForecast()
+                
+                state.locationManager.stopLocationUpdates()
+            }
+        } else {
+            state.errorState.setAppError(.locationFailed)
+        }
+    }
 }
 
 extension Api {
