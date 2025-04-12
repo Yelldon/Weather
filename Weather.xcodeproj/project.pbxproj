@@ -27,6 +27,11 @@
 		3790D71D28738D4300EE26E0 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D71C28738D4300EE26E0 /* WeatherModel.swift */; };
 		3790D71F28738E0B00EE26E0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D71E28738E0B00EE26E0 /* Helpers.swift */; };
 		3790D7212873C50700EE26E0 /* StationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790D7202873C50700EE26E0 /* StationModel.swift */; };
+		37B0F1B22DA9D26D00D4C6FC /* LocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B0F1B12DA9D26D00D4C6FC /* LocationButton.swift */; };
+		37B0F1B52DAA002F00D4C6FC /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = 37B0F1B42DAA002F00D4C6FC /* SwipeActions */; };
+		37B0F1B72DAA088A00D4C6FC /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = 37B0F1B62DAA088A00D4C6FC /* SwipeActions */; };
+		37B0F1B92DAA089B00D4C6FC /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = 37B0F1B82DAA089B00D4C6FC /* SwipeActions */; };
+		37B0F1BC2DAA08AA00D4C6FC /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = 37B0F1BB2DAA08AA00D4C6FC /* SwipeActions */; };
 		37CE39942DA0875000B43909 /* ForecastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE39932DA0875000B43909 /* ForecastModel.swift */; };
 		37CE39962DA087A800B43909 /* ForecastPeriodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE39952DA087A800B43909 /* ForecastPeriodModel.swift */; };
 		37CE39982DA087CA00B43909 /* HourlyForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE39972DA087CA00B43909 /* HourlyForecastView.swift */; };
@@ -80,6 +85,7 @@
 		3790D71C28738D4300EE26E0 /* WeatherModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		3790D71E28738E0B00EE26E0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		3790D7202873C50700EE26E0 /* StationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationModel.swift; sourceTree = "<group>"; };
+		37B0F1B12DA9D26D00D4C6FC /* LocationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationButton.swift; sourceTree = "<group>"; };
 		37CE397B2DA0627300B43909 /* WeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37CE398A2DA062A800B43909 /* WeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37CE39932DA0875000B43909 /* ForecastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastModel.swift; sourceTree = "<group>"; };
@@ -106,6 +112,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3790D70C286D496000EE26E0 /* MapKit.framework in Frameworks */,
+				37B0F1BC2DAA08AA00D4C6FC /* SwipeActions in Frameworks */,
+				37B0F1B92DAA089B00D4C6FC /* SwipeActions in Frameworks */,
+				37B0F1B72DAA088A00D4C6FC /* SwipeActions in Frameworks */,
+				37B0F1B52DAA002F00D4C6FC /* SwipeActions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +226,7 @@
 				37CE399F2DA308DA00B43909 /* IconView.swift */,
 				37CE39A12DA3230B00B43909 /* TitleView.swift */,
 				370D7FAF2DA76D8C0079505A /* SearchField.swift */,
+				37B0F1B12DA9D26D00D4C6FC /* LocationButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -347,6 +358,9 @@
 				Base,
 			);
 			mainGroup = 3790D6E6286CDA1300EE26E0;
+			packageReferences = (
+				37B0F1BA2DAA08AA00D4C6FC /* XCRemoteSwiftPackageReference "SwipeActions" */,
+			);
 			productRefGroup = 3790D6F0286CDA1300EE26E0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -396,6 +410,7 @@
 				37CE39BF2DA5B92C00B43909 /* View+Weather.swift in Sources */,
 				3790D71B287206DB00EE26E0 /* GridPointsModel.swift in Sources */,
 				37CE399A2DA0B71300B43909 /* ExtendedForecastView.swift in Sources */,
+				37B0F1B22DA9D26D00D4C6FC /* LocationButton.swift in Sources */,
 				37CE39A02DA308DA00B43909 /* IconView.swift in Sources */,
 				37CE39C12DA6BF8600B43909 /* Style+Weather.swift in Sources */,
 				3790D7172871516D00EE26E0 /* DisplayTempView.swift in Sources */,
@@ -781,6 +796,46 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		37B0F1B32DAA002F00D4C6FC /* XCRemoteSwiftPackageReference "SwipeActions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/SwipeActions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+		37B0F1BA2DAA08AA00D4C6FC /* XCRemoteSwiftPackageReference "SwipeActions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/c-villain/SwipeActions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		37B0F1B42DAA002F00D4C6FC /* SwipeActions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 37B0F1B32DAA002F00D4C6FC /* XCRemoteSwiftPackageReference "SwipeActions" */;
+			productName = SwipeActions;
+		};
+		37B0F1B62DAA088A00D4C6FC /* SwipeActions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwipeActions;
+		};
+		37B0F1B82DAA089B00D4C6FC /* SwipeActions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwipeActions;
+		};
+		37B0F1BB2DAA08AA00D4C6FC /* SwipeActions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 37B0F1BA2DAA08AA00D4C6FC /* XCRemoteSwiftPackageReference "SwipeActions" */;
+			productName = SwipeActions;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3790D6E7286CDA1300EE26E0 /* Project object */;
 }

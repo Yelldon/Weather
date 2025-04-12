@@ -120,13 +120,17 @@ private extension BaseView {
             .padding()
             
             ScrollView {
-                locationButton(location: nil)
-                
-                ForEach(savedLocations) { location in
-                    locationButton(location: location)
+                VStack {
+                    locationButton(location: nil)
+                    
+                    ForEach(savedLocations) { location in
+                        locationButton(location: location)
+                    }
+                    .onDelete(perform: deleteItems)
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
+            
             .foregroundStyle(Color.black)
         }
         .background(
@@ -138,7 +142,12 @@ private extension BaseView {
     }
     
     func locationButton(location: SavedLocationModel?) -> some View {
-        Button(action: {
+        LocationButton(
+            location: location,
+            onDelete: { index in
+                deleteItems(offsets: index)
+            }
+        ) {
             if let location {
                 state.currentSavedSelection = location
             } else {
@@ -146,39 +155,14 @@ private extension BaseView {
             }
             
             preferredColumn = .detail
-        }) {
-            VStack(alignment: .leading) {
-                HStack {
-                    if let location {
-                        Image(systemName: "mappin.and.ellipse")
-                        
-                        VStack(alignment: .leading) {
-                            Text(location.city)
-                                .font(.body)
-                            
-                            Text(location.state)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    } else {
-                        Image(systemName: "location.fill")
-                        VStack(alignment: .leading) {
-                            Text("Current Location")
-                                .font(.body)
-                            
-                            Text(state.locationState.cityLocationCurrent ?? "")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    
-                    Spacer()
-                }
-                .padding()
+        }
+    }
+    
+    func deleteItems(offsets: IndexSet) {
+        withAnimation {
+            for index in offsets {
+                modelContext.delete(savedLocations[index])
             }
-            .frame(maxWidth: .infinity)
-            .background(.white)
-            .roundedCorners()
         }
     }
     
