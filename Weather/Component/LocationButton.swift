@@ -16,7 +16,7 @@ struct LocationButton: View {
     @State var state = AppState.shared
     
     let location: SavedLocationModel?
-    var onDelete: (IndexSet) -> Void
+    var onDelete: (UUID) -> Void
     var action: () -> Void
     
     
@@ -62,7 +62,7 @@ struct LocationButton: View {
                             Button(
                                 role: .destructive,
                                 action: {
-                                    deleteItems(with: location.id)
+                                    onDelete(location.id)
                                 }
                             ) {
                                 Image(systemName: "trash")
@@ -82,19 +82,6 @@ struct LocationButton: View {
         }
     }
 }
-
-extension LocationButton {
-    func deleteItems(with id: UUID) {
-        guard let index = savedLocations.firstIndex(where: { $0.id == id }) else {
-            return
-        }
-        
-        withAnimation {
-            modelContext.delete(savedLocations[index])
-        }
-    }
-}
-    
 
 #Preview {
     LocationButton(

@@ -126,9 +126,9 @@ private extension BaseView {
                     ForEach(savedLocations) { location in
                         locationButton(location: location)
                     }
-                    .onDelete(perform: deleteItems)
                 }
                 .padding(.horizontal)
+                .animation(.easeOut, value: savedLocations)
             }
             
             .foregroundStyle(Color.black)
@@ -144,8 +144,8 @@ private extension BaseView {
     func locationButton(location: SavedLocationModel?) -> some View {
         LocationButton(
             location: location,
-            onDelete: { index in
-                deleteItems(offsets: index)
+            onDelete: { id in
+                remove(at: id)
             }
         ) {
             if let location {
@@ -155,6 +155,16 @@ private extension BaseView {
             }
             
             preferredColumn = .detail
+        }
+    }
+    
+    func remove(at id: UUID) {
+        guard let index = savedLocations.firstIndex(where: { $0.id == id }) else {
+            return
+        }
+        
+        withAnimation {
+            modelContext.delete(savedLocations[index])
         }
     }
     
