@@ -102,8 +102,12 @@ extension SearchCityView {
         let request = MKLocalSearch.Request()
         
         request.naturalLanguageQuery = searchText
-        request.resultTypes = .pointOfInterest
-        request.region = MKCoordinateRegion(.world)
+        request.resultTypes = .address
+        request.region = MKCoordinateRegion(
+            // Center of USA
+            center: CLLocationCoordinate2D(latitude: 37.0902, longitude: -95.7129),
+            span: MKCoordinateSpan(latitudeDelta: 50, longitudeDelta: 50)
+        )
 
         Task {
             let search = MKLocalSearch(request: request)
