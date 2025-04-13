@@ -5,9 +5,5 @@
 //  Created by Greg Patrick on 7/3/22.
 //
 
-import Foundation
-import CoreLocation
-
-class Config {
-    
-}
+// This file will be used in the future for various configuration changes to the app
+class Config { }

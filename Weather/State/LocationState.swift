@@ -13,7 +13,3 @@ class LocationState {
     var cityLocationCurrent: String?
     var cityLocation: String?
 }
-
-extension LocationState {
-
-}

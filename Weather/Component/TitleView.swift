@@ -19,6 +19,7 @@ struct TitleView: View {
                     .font(.body)
                     .foregroundStyle(color)
                     .bold()
+                
                 Divider()
                     .frame(height: 1)
                     .background(color)

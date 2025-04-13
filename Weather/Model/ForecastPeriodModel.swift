@@ -1,8 +1,11 @@
-import Foundation
+//
+//  ForecastPeriodModel.swift
+//  Weather
+//
+//  Created by Greg Patrick on 6/29/22.
+//
 
 struct ForecastPeriodModel: Decodable {
-//    struct ForecastPeriodModel: Identifiable, Decodable {
-//    var id: UUID = UUID()
     let number: Int
     let name: String
     let startTime: String
@@ -16,18 +19,4 @@ struct ForecastPeriodModel: Decodable {
     let shortForecast: String
     let detailedForecast: String
     let probabilityOfPrecipitation: WeatherValues
-    
-//    enum CodingKeys: String, CodingKey {
-//        case latitude
-//        case longitude
-//        case additionalInfo
-//    }
-    
-//    private let icon: String
-//    
-//    var weatherKey: String {
-//        let key = generateWeatherKey(icon)
-//        
-//        return getWeatherKey(key, isDay: isDaytime)
-//    }
 }

@@ -24,17 +24,21 @@ struct HourlyForecastView: View {
                             HStack {
                                 VStack(spacing: 4) {
                                     timeView(forecast.startTime)
+                                    
                                     Divider()
                                         .frame(height: 1)
                                         .background(Color.gray.opacity(0.3))
+                                    
                                     HStack {
                                         DisplayTempView(temp: String(forecast.temperature))
                                         IconView(weather: forecast.shortForecast)
                                             .frame(width: 12, height: 12)
                                     }
+                                    
                                     Text(forecast.shortForecast)
                                         .font(.footnote)
                                     Spacer()
+                                    
                                     chanceOfPrecipView(
                                         forecast.probabilityOfPrecipitation.value
                                     )
