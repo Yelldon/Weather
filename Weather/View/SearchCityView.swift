@@ -68,7 +68,17 @@ struct SearchCityView: View {
                                     modelContext.insert(savedLocation)
                                     openSearch = false
                                     preferredColumn = .detail
+                                    
+                                    state.resetBaseState()
                                     state.resetCurrentSelection()
+                                    state.errorState.resetAppErrors()
+                                    state.locationState.cityLocationCurrent = city
+                                    
+                                    Task {
+                                        await Api.getLocationUpdate(
+                                            location: CLLocation(latitude: lat, longitude: lon)
+                                        )
+                                    }
                                 }
                             }) {
                                 VStack(alignment: .leading) {

@@ -11,7 +11,6 @@ import Observation
 @Observable
 class ErrorState {
     var appError: Api.AppError?
-    var networkError: Bool = false
 }
 
 extension ErrorState {
@@ -21,6 +20,5 @@ extension ErrorState {
     
     func resetAppErrors() {
         appError = nil
-        networkError = false
     }
 }
