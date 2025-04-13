@@ -56,6 +56,7 @@ struct ExtendedForecastView: View {
                     }
                     .padding()
                 }
+                .accessibilityIdentifier("extendedForecastScrollView")
             }
         }
         .onAppear {

@@ -18,6 +18,7 @@ struct SearchField: View {
                 .foregroundStyle(Color.searchPlaceholder)
         )
         .textFieldStyle(BaseFieldStyle())
+        .accessibilityIdentifier("searchField")
     }
 }
 

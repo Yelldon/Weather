@@ -53,6 +53,7 @@ struct HourlyForecastView: View {
                     }
                     .padding()
                 }
+                .accessibilityIdentifier("hourlyForecastScrollView")
             }
         }
         .onAppear {

@@ -81,7 +81,7 @@ struct BaseView: View {
     }
 }
 
-private extension BaseView {
+extension BaseView {
     var isLocationNotDetermined: Bool {
         switch state.locationManager.authorizationStatus {
         case .notDetermined:
@@ -139,6 +139,7 @@ private extension BaseView {
                 startPoint: .topLeading, endPoint: .bottomTrailing
             )
         )
+        .accessibilityIdentifier("locationMenuButton")
     }
     
     func locationButton(location: SavedLocationModel?) -> some View {

@@ -20,6 +20,7 @@ struct MainView: View {
                     VStack {
                         headerView
                         CurrentWeatherView()
+                            .accessibilityIdentifier("currentWeatherView")
                         HourlyForecastView()
                         ExtendedForecastView()
                     }
@@ -79,6 +80,7 @@ extension MainView {
             .whiteBackground()
             .roundedCorners()
         }
+        .accessibilityIdentifier("locationMenuView")
     }
 }
 

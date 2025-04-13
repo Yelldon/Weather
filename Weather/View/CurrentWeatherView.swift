@@ -92,6 +92,7 @@ private extension CurrentWeatherView {
             .font(.largeTitle)
             .bold()
             .contentLoading(isLoading)
+            .accessibilityIdentifier("temperatureLabel")
     }
     
     var lastUpdatedView: some View {
