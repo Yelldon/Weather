@@ -17,6 +17,7 @@ struct IconView: View {
     }
 }
 
+// MARK: Properties
 private extension IconView {
     var generatedIcon: String {
         guard let weather, !weather.isEmpty else {
@@ -40,7 +41,10 @@ private extension IconView {
             return "sun.max.fill"
         }
     }
-    
+}
+
+// MARK: Views
+private extension IconView {
     var iconView: some View {
         Image(systemName: generatedIcon)
             .resizable()

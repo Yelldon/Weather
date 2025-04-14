@@ -38,6 +38,8 @@ struct MainView: View {
     }
 }
 
+
+// MARK: Properties
 extension MainView {
     var isLoading: Bool {
         state.isWeatherViewLoading
@@ -52,7 +54,10 @@ extension MainView {
         
         return state.locationState.cityLocation ?? defaultString
     }
-    
+}
+
+// MARK: Views
+extension MainView {
     var headerView: some View {
         Button {
             preferredColumn = .sidebar

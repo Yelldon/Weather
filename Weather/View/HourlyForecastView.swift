@@ -67,7 +67,7 @@ struct HourlyForecastView: View {
     }
 }
 
-    
+// MARK: Properties
 extension HourlyForecastView {
     var hourlyForecasts: [ForecastPeriodModel]? {
         state.hourlyForecast?.properties.periods
@@ -82,6 +82,7 @@ extension HourlyForecastView {
     }
 }
 
+// MARK: Views
 extension HourlyForecastView {
     @ViewBuilder func timeView(_ time: String) -> some View {
         if let hour = hour(time) {

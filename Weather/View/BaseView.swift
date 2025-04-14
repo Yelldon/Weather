@@ -81,6 +81,7 @@ struct BaseView: View {
     }
 }
 
+// MARK: Properties
 extension BaseView {
     var isLocationNotDetermined: Bool {
         switch state.locationManager.authorizationStatus {
@@ -98,7 +99,10 @@ extension BaseView {
             return false
         }
     }
-    
+}
+
+// MARK: Views
+extension BaseView {
     var locationMenuView: some View {
         VStack {
             VStack {
@@ -158,7 +162,10 @@ extension BaseView {
             preferredColumn = .detail
         }
     }
-    
+}
+
+// MARK: Functions
+extension BaseView {
     func remove(at id: UUID) {
         guard let index = savedLocations.firstIndex(where: { $0.id == id }) else {
             return

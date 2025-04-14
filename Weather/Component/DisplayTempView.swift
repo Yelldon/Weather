@@ -15,6 +15,7 @@ struct DisplayTempView: View {
     }
 }
 
+// MARK: Properties
 extension DisplayTempView {
     var tempText: String {
         "\(temp)°"

@@ -19,7 +19,6 @@ struct LocationButton: View {
     var onDelete: (UUID) -> Void
     var action: () -> Void
     
-    
     var body: some View {
         Button(action: {
             action()
