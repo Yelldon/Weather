@@ -133,6 +133,7 @@ private extension CurrentWeatherView {
                             }
                         }
                     }
+                    .foregroundStyle(Color.teal)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

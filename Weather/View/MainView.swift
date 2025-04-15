@@ -58,35 +58,45 @@ extension MainView {
 
 // MARK: Views
 extension MainView {
-    var headerView: some View {
-        Button {
-            preferredColumn = .sidebar
-        } label: {
-            VStack {
-                HStack(spacing: 0) {
+    @ViewBuilder var headerView: some View {
+        if Config.shared.isPhone {
+            Button {
+                preferredColumn = .sidebar
+            } label: {
+                cityView
+            }
+            .accessibilityIdentifier("locationMenuView")
+            .padding()
+        } else {
+            cityView
+        }
+    }
+    
+    var cityView: some View {
+        VStack {
+            HStack(spacing: 0) {
+                if Config.shared.isPhone {
                     Image(systemName: "line.3.horizontal")
                         .padding(.trailing)
                         .foregroundStyle(Color.black)
-                    
-                    if state.currentSavedSelection == nil {
-                        Image(systemName: "location.fill")
-                            .font(.caption)
-                            .padding(.trailing, 4)
-                            .foregroundStyle(Color.black)
-                    }
-                    
-                    Text(cityName)
-                        .font(.footnote)
-                        .foregroundStyle(Color.black)
-                        .contentLoading(isLoading)
                 }
+
+                if state.currentSavedSelection == nil {
+                    Image(systemName: "location.fill")
+                        .font(.caption)
+                        .padding(.trailing, 4)
+                        .foregroundStyle(Color.black)
+                }
+                
+                Text(cityName)
+                    .font(.footnote)
+                    .foregroundStyle(Color.black)
+                    .contentLoading(isLoading)
             }
-            .padding(8)
-            .whiteBackground()
-            .roundedCorners()
         }
-        .accessibilityIdentifier("locationMenuView")
-        .padding()
+        .padding(8)
+        .whiteBackground()
+        .roundedCorners()
     }
 }
 
