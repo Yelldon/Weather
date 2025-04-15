@@ -143,6 +143,7 @@ extension BaseView {
                 startPoint: .topLeading, endPoint: .bottomTrailing
             )
         )
+        .containerBackground(.baseDarkGradientStart, for: .navigationSplitView)
         .accessibilityIdentifier("locationMenuButton")
     }
     

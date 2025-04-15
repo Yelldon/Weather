@@ -33,7 +33,7 @@ struct MainView: View {
                     )
                 )
             }
-            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -86,6 +86,7 @@ extension MainView {
             .roundedCorners()
         }
         .accessibilityIdentifier("locationMenuView")
+        .padding()
     }
 }
 
