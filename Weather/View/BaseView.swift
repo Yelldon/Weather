@@ -51,7 +51,7 @@ struct BaseView: View {
         .onChange(of: state.locationManager.beginGettingLocation) { _, value in
             if value {
                 Task {
-                    await Api.getLocationUpdate(location: state.locationManager.location)
+                    await WeatherAPI.shared.getLocationUpdate(location: state.locationManager.location)
                 }
                 state.locationManager.beginGettingLocation = false
             }
@@ -62,12 +62,9 @@ struct BaseView: View {
                 state.resetBaseState()
                 state.errorState.resetAppErrors()
                 Task {
-                    await Api.getPointData(for: CLLocation(latitude: location.lat, longitude: location.lon))
-                    await Api.getStationData()
-                    
-                    let _ = await Api.getCurrentWeather()
-                    let _ = await Api.getHourlyForecast()
-                    let _ = await Api.getExtendedForecast()
+                    await WeatherAPI.shared.getLocationUpdate(
+                        location: CLLocation(latitude: location.lat, longitude: location.lon)
+                    )
                 }
             }
         }
@@ -190,7 +187,7 @@ extension BaseView {
         state.resetCurrentSelection()
         state.errorState.resetAppErrors()
         Task {
-            await Api.getLocationUpdate(location: location)
+            await WeatherAPI.shared.getLocationUpdate(location: location)
         }
     }
 }

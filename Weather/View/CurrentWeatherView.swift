@@ -129,7 +129,7 @@ private extension CurrentWeatherView {
                             )
                             
                             Task {
-                                await Api.getLocationUpdate(location: location)
+                                await WeatherAPI.shared.getLocationUpdate(location: location)
                             }
                         }
                     }

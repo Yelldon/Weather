@@ -75,7 +75,7 @@ struct SearchCityView: View {
                                     state.locationState.cityLocationCurrent = city
                                     
                                     Task {
-                                        await Api.getLocationUpdate(
+                                        await WeatherAPI.shared.getLocationUpdate(
                                             location: CLLocation(latitude: lat, longitude: lon)
                                         )
                                     }

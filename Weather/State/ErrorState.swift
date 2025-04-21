@@ -10,11 +10,11 @@ import Observation
 
 @Observable
 class ErrorState {
-    var appError: Api.AppError?
+    var appError: WeatherAPI.AppError?
 }
 
 extension ErrorState {
-    func setAppError(_ error: Api.AppError) {
+    func setAppError(_ error: WeatherAPI.AppError) {
         appError = error
     }
     

@@ -7,13 +7,16 @@
 
 import Foundation
 import CoreLocation
+import Observation
 
-@MainActor
-class Api {
-    static var state = AppState.shared
-    static private let baseApiUrl = "https://api.weather.gov"
+class WeatherAPI {
+    static let shared = WeatherAPI()
     
-    static func getPointData(for location: CLLocation) async -> Void {
+    private let baseApiUrl = "https://api.weather.gov"
+    
+    var state = AppState.shared
+    
+    func getPointData(for location: CLLocation) async throws -> Void {
         do {
             debugPrint("Getting grid point data")
             debugPrint(location)
@@ -26,7 +29,7 @@ class Api {
         }
     }
     
-    static func getStationData() async -> Void {
+    func getStationData() async throws {
         do {
             debugPrint("Getting weather station data")
             if let stations = state.pointData?.properties.observationStations {
@@ -40,7 +43,7 @@ class Api {
         }
     }
     
-    static func getCurrentWeather() async -> Void {
+    func getCurrentWeather() async throws {
         do {
             debugPrint("Getting current weather")
             debugPrint(observationUrl)
@@ -52,7 +55,7 @@ class Api {
         }
     }
     
-    static func getHourlyForecast() async -> Void {
+    func getHourlyForecast() async throws {
         do {
             debugPrint("Getting Hourly Forecast")
             if let forecastHourly = state.pointData?.properties.forecastHourly {
@@ -65,7 +68,7 @@ class Api {
         }
     }
     
-    static func getExtendedForecast() async -> Void {
+    func getExtendedForecast() async throws {
         do {
             debugPrint("Getting Hourly Forecast")
             if let forecast = state.pointData?.properties.forecast {
@@ -78,15 +81,15 @@ class Api {
         }
     }
     
-    static func getLocationUpdate(location: CLLocation?) async -> Void {
+    func getLocationUpdate(location: CLLocation?) async {
         if let location {
             Task {
-                await Api.getPointData(for: location)
-                await Api.getStationData()
+                try await WeatherAPI.shared.getPointData(for: location)
+                try await WeatherAPI.shared.getStationData()
                 
-                let _ = await Api.getCurrentWeather()
-                let _ = await Api.getHourlyForecast()
-                let _ = await Api.getExtendedForecast()
+                let _ = try await WeatherAPI.shared.getCurrentWeather()
+                let _ = try await WeatherAPI.shared.getHourlyForecast()
+                let _ = try await WeatherAPI.shared.getExtendedForecast()
                 
                 state.locationManager.stopLocationUpdates()
             }
@@ -96,7 +99,7 @@ class Api {
     }
 }
 
-extension Api {
+extension WeatherAPI {
     enum AppError: Error {
         case decodingFailed
         case invalidURL
@@ -107,8 +110,8 @@ extension Api {
     }
 }
 
-private extension Api {
-    static func fetch<T: Decodable>(from url: String) async throws -> T {
+private extension WeatherAPI {
+    func fetch<T: Decodable>(from url: String) async throws -> T {
         guard let url = URL(string: url) else {
             throw AppError.invalidURL
         }
@@ -135,7 +138,7 @@ private extension Api {
         }
     }
     
-    static var observationUrl: String {
+    var observationUrl: String {
         if let station = state.stationData?.observationStations.first {
             return "\(station)/observations/latest"
         } else {
@@ -143,7 +146,7 @@ private extension Api {
         }
     }
     
-    static func gridPointUrl(location: CLLocation) -> String {
+    func gridPointUrl(location: CLLocation) -> String {
         let latString = String(format: "%.4f", location.coordinate.latitude)
         let lonString = String(format: "%.4f", location.coordinate.longitude)
         

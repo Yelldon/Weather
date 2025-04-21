@@ -71,14 +71,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             requestLocationPermission()
             
         } else if locationError.code == CLError.locationUnknown.rawValue {
-            debugPrint("** Location unknown error**")
-//            AppState.shared.errorState.setAppError(.locationFailed)
+            debugPrint("** Location unknown error **")
             startLocationUpdates()
         }
-            
-            // Stop the location service and inform the user
-    
-//        AppState.shared.errorState.setAppError(.locationFailed)
     }
     
     // Handle authorization

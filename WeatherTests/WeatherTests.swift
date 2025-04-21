@@ -117,8 +117,8 @@ struct WeatherTests {
         .disabled("better error handling needs to happen for this to work well.")
     )
     func testApiErrorHandling() {
-        _ = Api.AppError.invalidURL
-        _ = Api.AppError.decodingFailed
+        _ = WeatherAPI.AppError.invalidURL
+        _ = WeatherAPI.AppError.decodingFailed
 
         // #expect(invalidURLError is Error)
         // #expect(decodingFailedError is Error)
