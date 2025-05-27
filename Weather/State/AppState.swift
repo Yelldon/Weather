@@ -17,9 +17,7 @@ class AppState {
     var locationManager = LocationManager()
     var locationState = LocationState()
     var errorState = ErrorState()
-    
-    var pointData: GridPointsModel?
-    var stationData: StationModel?
+
     var currentWeather: WeatherModel?
     var hourlyForecast: ForecastModel?
     var extendedForecast: ForecastModel?
@@ -36,8 +34,6 @@ extension AppState {
     
     func resetBaseState() {
         isWeatherViewLoading = true
-        pointData = nil
-        stationData = nil
         currentWeather = nil
         hourlyForecast = nil
         extendedForecast = nil

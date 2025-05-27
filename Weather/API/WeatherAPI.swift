@@ -16,34 +16,37 @@ class WeatherAPI {
     
     var state = AppState.shared
     
-    func getPointData(for location: CLLocation) async throws -> Void {
+    func getPointData(for location: CLLocation) async throws -> GridPointsModel? {
         do {
             debugPrint("Getting grid point data")
             debugPrint(location)
-            state.pointData = try await fetch(from: gridPointUrl(location: location))
             state.isWeatherViewLoading = true
+            
+            return try await fetch(from: gridPointUrl(location: location))
         } catch {
             debugPrint("Getting grid point data error occured")
             debugPrint(error)
             state.errorState.appError = .invalidURL
+            
+            return nil
         }
     }
     
-    func getStationData() async throws {
+    func getStationData(for stations: String) async throws -> StationModel? {
         do {
             debugPrint("Getting weather station data")
-            if let stations = state.pointData?.properties.observationStations {
-                debugPrint(stations)
-                state.stationData = try await fetch(from: stations)
-            }
+            debugPrint(stations)
+            return try await fetch(from: stations)
         } catch {
             debugPrint("Getting weather station data error occured")
             debugPrint(error)
             state.errorState.appError = .invalidURL
+            
+            return nil
         }
     }
     
-    func getCurrentWeather() async throws {
+    func getCurrentWeather(for observationUrl: String) async throws {
         do {
             debugPrint("Getting current weather")
             debugPrint(observationUrl)
@@ -55,58 +58,88 @@ class WeatherAPI {
         }
     }
     
-    func getHourlyForecast() async throws {
+    func getHourlyForecast(for pointData: GridPointsModel) async throws {
+        let forecastHourly = pointData.properties.forecastHourly
         do {
             debugPrint("Getting Hourly Forecast")
-            if let forecastHourly = state.pointData?.properties.forecastHourly {
-                debugPrint(forecastHourly)
-                state.hourlyForecast = try await fetch(from: forecastHourly)
-            }
+            debugPrint(forecastHourly)
+            state.hourlyForecast = try await fetch(from: forecastHourly)
         } catch {
             debugPrint("Get current weather error occured")
             debugPrint(error)
         }
     }
     
-    func getExtendedForecast() async throws {
+    func getExtendedForecast(for pointData: GridPointsModel) async throws {
+        let forecast = pointData.properties.forecast
         do {
             debugPrint("Getting Hourly Forecast")
-            if let forecast = state.pointData?.properties.forecast {
-                debugPrint(forecast)
-                state.extendedForecast = try await fetch(from: forecast)
-            }
+            debugPrint(forecast)
+            state.extendedForecast = try await fetch(from: forecast)
         } catch {
             debugPrint("Getting Hourly Forecast error occured")
             debugPrint(error)
         }
     }
     
-    func getLocationUpdate(location: CLLocation?) async {
+    func getLocationUpdate(location: CLLocation?) async throws {
         if let location {
-            Task {
+            state.locationManager.stopLocationUpdates()
+            
+            let pointData = try await Task {
                 try await WeatherAPI.shared.getPointData(for: location)
-                try await WeatherAPI.shared.getStationData()
-                
-                let _ = try await WeatherAPI.shared.getCurrentWeather()
-                let _ = try await WeatherAPI.shared.getHourlyForecast()
-                let _ = try await WeatherAPI.shared.getExtendedForecast()
-                
-                state.locationManager.stopLocationUpdates()
+            }.value
+            
+            let stationData = try await Task {
+                if let pointData {
+                    return try await WeatherAPI.shared.getStationData(for: pointData.properties.observationStations)
+                } else {
+                    return nil
+                }
+            }.value
+            
+            Task {
+                if let pointData, let stationData {
+                    await WeatherAPI.shared.getWeatherInfo(
+                        for: WeatherLocationResult(pointData: pointData, stationData: stationData)
+                    )
+                }
             }
         } else {
             state.errorState.setAppError(.locationFailed)
         }
     }
+    
+    func getWeatherInfo(for data: WeatherLocationResult) async {
+        Task {
+            try? await WeatherAPI.shared.getCurrentWeather(
+                for: observationUrl(for: data.stationData.observationStations)
+            )
+        }
+        
+        Task {
+            try? await WeatherAPI.shared.getHourlyForecast(for: data.pointData)
+        }
+        
+        Task {
+            try? await WeatherAPI.shared.getExtendedForecast(for: data.pointData)
+        }
+    }
 }
 
+// MARK: Weather API Errors
 extension WeatherAPI {
-    enum AppError: Error {
+    enum AppError: Error, Equatable {
         case decodingFailed
         case invalidURL
         case invalidResponse
         case invalidData
         case locationFailed
-        case requestFailed
+        case requestFailed(Error)
+        
+        static func == (lhs: WeatherAPI.AppError, rhs: WeatherAPI.AppError) -> Bool {
+            lhs.localizedDescription == rhs.localizedDescription
+        }
     }
 }
 
@@ -134,12 +167,14 @@ private extension WeatherAPI {
                 throw AppError.decodingFailed
             }
         } catch {
-            throw AppError.requestFailed
+            throw AppError.requestFailed(error)
         }
     }
-    
-    var observationUrl: String {
-        if let station = state.stationData?.observationStations.first {
+}
+
+private extension WeatherAPI {
+    func observationUrl(for stations: [String]) -> String {
+        if let station = stations.first {
             return "\(station)/observations/latest"
         } else {
             return ""

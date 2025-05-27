@@ -51,7 +51,7 @@ struct BaseView: View {
         .onChange(of: state.locationManager.beginGettingLocation) { _, value in
             if value {
                 Task {
-                    await WeatherAPI.shared.getLocationUpdate(location: state.locationManager.location)
+                    try await WeatherAPI.shared.getLocationUpdate(location: state.locationManager.location)
                 }
                 state.locationManager.beginGettingLocation = false
             }
@@ -62,7 +62,7 @@ struct BaseView: View {
                 state.resetBaseState()
                 state.errorState.resetAppErrors()
                 Task {
-                    await WeatherAPI.shared.getLocationUpdate(
+                    try await WeatherAPI.shared.getLocationUpdate(
                         location: CLLocation(latitude: location.lat, longitude: location.lon)
                     )
                 }
@@ -187,7 +187,7 @@ extension BaseView {
         state.resetCurrentSelection()
         state.errorState.resetAppErrors()
         Task {
-            await WeatherAPI.shared.getLocationUpdate(location: location)
+            try await WeatherAPI.shared.getLocationUpdate(location: location)
         }
     }
 }
