@@ -11,11 +11,11 @@ import SwipeActions
 
 struct LocationButton: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var savedLocations: [SavedLocationModel]
+    @Query private var savedLocations: [SavedLocation]
     
     @State var state = AppState.shared
     
-    let location: SavedLocationModel?
+    let location: SavedLocation?
     var onDelete: (UUID) -> Void
     var action: () -> Void
     

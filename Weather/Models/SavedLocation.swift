@@ -1,5 +1,5 @@
 //
-//  SavedLocationModel.swift
+//  SavedLocation.swift
 //  Weather
 //
 //  Created by Greg Patrick on 4/7/25.
@@ -10,7 +10,7 @@ import SwiftData
 import CoreLocation
 
 @Model
-final class SavedLocationModel: Identifiable {
+final class SavedLocation: Identifiable {
     var id: UUID = UUID()
     var city: String
     var state: String

@@ -1,11 +1,11 @@
 //
-//  ForecastPeriodModel.swift
+//  ForecastPeriod.swift
 //  Weather
 //
 //  Created by Greg Patrick on 6/29/22.
 //
 
-struct ForecastPeriodModel: Decodable {
+struct ForecastPeriod: Decodable {
     let number: Int
     let name: String
     let startTime: String

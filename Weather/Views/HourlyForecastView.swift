@@ -69,7 +69,7 @@ struct HourlyForecastView: View {
 
 // MARK: Properties
 extension HourlyForecastView {
-    var hourlyForecasts: [ForecastPeriodModel]? {
+    var hourlyForecasts: [ForecastPeriod]? {
         state.hourlyForecast?.properties.periods
     }
     

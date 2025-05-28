@@ -12,7 +12,7 @@ import CoreLocation
 struct BaseView: View {
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.modelContext) private var modelContext
-    @Query private var savedLocations: [SavedLocationModel]
+    @Query private var savedLocations: [SavedLocation]
     
     @State var state = AppState.shared
     
@@ -144,7 +144,7 @@ extension BaseView {
         .accessibilityIdentifier("locationMenuButton")
     }
     
-    func locationButton(location: SavedLocationModel?) -> some View {
+    func locationButton(location: SavedLocation?) -> some View {
         LocationButton(
             location: location,
             onDelete: { id in

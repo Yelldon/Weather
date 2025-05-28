@@ -1,11 +1,11 @@
 //
-//  GridPointsModel.swift
+//  GridPoints.swift
 //  Weather
 //
 //  Created by Greg Patrick on 6/29/22.
 //
 
-struct GridPointsModel: Decodable {
+struct GridPoints: Decodable {
     let properties: GridPointProperties
 }
 

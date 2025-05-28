@@ -1,10 +1,10 @@
 //
-//  StatusModel.swift
+//  Status.swift
 //  Weather
 //
 //  Created by Greg Patrick on 6/29/22.
 //
 
-struct StatusModel: Decodable {
+struct Status: Decodable {
     let status: String
 }

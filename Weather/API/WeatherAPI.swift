@@ -16,7 +16,7 @@ class WeatherAPI {
     
     var state = AppState.shared
     
-    func getPointData(for location: CLLocation) async throws -> GridPointsModel? {
+    func getPointData(for location: CLLocation) async throws -> GridPoints? {
         do {
             debugPrint("Getting grid point data")
             debugPrint(location)
@@ -32,7 +32,7 @@ class WeatherAPI {
         }
     }
     
-    func getStationData(for stations: String) async throws -> StationModel? {
+    func getStationData(for stations: String) async throws -> Station? {
         do {
             debugPrint("Getting weather station data")
             debugPrint(stations)
@@ -58,7 +58,7 @@ class WeatherAPI {
         }
     }
     
-    func getHourlyForecast(for pointData: GridPointsModel) async throws {
+    func getHourlyForecast(for pointData: GridPoints) async throws {
         let forecastHourly = pointData.properties.forecastHourly
         do {
             debugPrint("Getting Hourly Forecast")
@@ -70,7 +70,7 @@ class WeatherAPI {
         }
     }
     
-    func getExtendedForecast(for pointData: GridPointsModel) async throws {
+    func getExtendedForecast(for pointData: GridPoints) async throws {
         let forecast = pointData.properties.forecast
         do {
             debugPrint("Getting Hourly Forecast")

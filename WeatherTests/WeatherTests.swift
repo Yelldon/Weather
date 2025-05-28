@@ -92,10 +92,10 @@ struct WeatherTests {
 
     // MARK: - Model Tests
 
-    @Test("SavedLocationModel creation works correctly")
-    func testSavedLocationModel() {
+    @Test("SavedLocation creation works correctly")
+    func testSavedLocation() {
         let UUID: UUID = UUID()
-        let location = SavedLocationModel(
+        let location = SavedLocation(
             id: UUID,
             city: "New York",
             state: "NY",

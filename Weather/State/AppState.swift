@@ -12,15 +12,15 @@ import Observation
 class AppState {
     static let shared = AppState()
     
-    var currentSavedSelection: SavedLocationModel?
+    var currentSavedSelection: SavedLocation?
     
     var locationManager = LocationManager()
     var locationState = LocationState()
     var errorState = ErrorState()
 
-    var currentWeather: WeatherModel?
-    var hourlyForecast: ForecastModel?
-    var extendedForecast: ForecastModel?
+    var currentWeather: Weather?
+    var hourlyForecast: Forecast?
+    var extendedForecast: Forecast?
     
     var menuIsOpen: Bool = false
     var isWeatherViewLoading: Bool = false

@@ -70,7 +70,7 @@ struct ExtendedForecastView: View {
 
 // MARK: Properties
 extension ExtendedForecastView {
-    var extendedForecast: [ForecastPeriodModel]? {
+    var extendedForecast: [ForecastPeriod]? {
         state.extendedForecast?.properties.periods
     }
     

@@ -1,14 +1,14 @@
 //
-//  ForecastModel.swift
+//  Forecast.swift
 //  Weather
 //
 //  Created by Greg Patrick on 7/4/22.
 //
 
-struct ForecastModel: Decodable {
+struct Forecast: Decodable {
     let properties: ForecastProperties
 }
 
 struct ForecastProperties: Decodable {
-    let periods: [ForecastPeriodModel]
+    let periods: [ForecastPeriod]
 }

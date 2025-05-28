@@ -6,6 +6,6 @@
 //
 
 struct WeatherLocationResult {
-    let pointData: GridPointsModel
-    let stationData: StationModel
+    let pointData: GridPoints
+    let stationData: Station
 }

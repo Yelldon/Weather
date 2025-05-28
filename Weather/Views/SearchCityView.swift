@@ -11,7 +11,7 @@ import SwiftData
 
 struct SearchCityView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var savedLocation: [SavedLocationModel]
+    @Query private var savedLocation: [SavedLocation]
     
     @State var state = AppState.shared
     @State private var searchText: String = ""
@@ -58,7 +58,7 @@ struct SearchCityView: View {
                             Button(action: {
                                 if let lat = item.placemark.location?.coordinate.latitude,
                                    let lon = item.placemark.location?.coordinate.longitude {
-                                    let savedLocation = SavedLocationModel(
+                                    let savedLocation = SavedLocation(
                                         city: city,
                                         state: administrativeArea,
                                         lat: lat,
