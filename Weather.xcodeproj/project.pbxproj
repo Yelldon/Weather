@@ -167,12 +167,12 @@
 			isa = PBXGroup;
 			children = (
 				37CE399C2DA0C0CA00B43909 /* API */,
-				3790D7152871515500EE26E0 /* Component */,
-				37CE39BD2DA5B80900B43909 /* Extension */,
-				3790D702286CE2FE00EE26E0 /* Model */,
+				3790D7152871515500EE26E0 /* Components */,
+				37CE39BD2DA5B80900B43909 /* Extensions */,
+				3790D702286CE2FE00EE26E0 /* Models */,
 				3790D6F8286CDA1500EE26E0 /* Preview Content */,
 				37CE399B2DA0C07A00B43909 /* State */,
-				3790D70D2871351500EE26E0 /* View */,
+				3790D70D2871351500EE26E0 /* Views */,
 				370D7FAD2DA76B580079505A /* Localizable.strings */,
 				3790D709286D492600EE26E0 /* Info.plist */,
 				3790D6F6286CDA1500EE26E0 /* Assets.xcassets */,
@@ -189,7 +189,7 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		3790D702286CE2FE00EE26E0 /* Model */ = {
+		3790D702286CE2FE00EE26E0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				3779CC492DE51F240056D895 /* WeatherLocationResult.swift */,
@@ -203,7 +203,7 @@
 				3790D7202873C50700EE26E0 /* StationModel.swift */,
 				37CE39932DA0875000B43909 /* ForecastModel.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		3790D70A286D496000EE26E0 /* Frameworks */ = {
@@ -214,7 +214,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3790D70D2871351500EE26E0 /* View */ = {
+		3790D70D2871351500EE26E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				3790D6F2286CDA1300EE26E0 /* WeatherApp.swift */,
@@ -225,10 +225,10 @@
 				3790D7132871416400EE26E0 /* BaseView.swift */,
 				37CE39BB2DA4CEC500B43909 /* SearchCityView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
-		3790D7152871515500EE26E0 /* Component */ = {
+		3790D7152871515500EE26E0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				3790D7162871516D00EE26E0 /* DisplayTempView.swift */,
@@ -237,7 +237,7 @@
 				370D7FAF2DA76D8C0079505A /* SearchField.swift */,
 				37B0F1B12DA9D26D00D4C6FC /* LocationButton.swift */,
 			);
-			path = Component;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		37CE399B2DA0C07A00B43909 /* State */ = {
@@ -259,14 +259,14 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		37CE39BD2DA5B80900B43909 /* Extension */ = {
+		37CE39BD2DA5B80900B43909 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				37CE39C02DA6BF7F00B43909 /* Style+Weather.swift */,
 				37CE39BE2DA5B92600B43909 /* View+Weather.swift */,
 				3790D71E28738E0B00EE26E0 /* Helpers.swift */,
 			);
-			path = Extension;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
